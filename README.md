@@ -15,7 +15,7 @@ if USE_LDAP=1 adds:
 
 ###auth.c:
 
-####Add in top of the file:
+####Add on top of the file:
 ```
 #ifdef HAVE_LDAP
 #include <ldap.h>
