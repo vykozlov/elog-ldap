@@ -3,7 +3,7 @@ elog+ldap
 
 Modification of the ELOG software in order to use LDAP authentication.
 
-Original verions of ELOG: 2.9.2-2455
+Original version of ELOG: 2.9.2-2455
 
 Modified files: auth.c and Makefile
 
@@ -32,7 +32,7 @@ char ldap_bindDN[512];
 ####Add following ldap functions:
 
 - ldap_init(LOGBOOK *lbs, char *error_str, int error_size):
-to check if elogd.cfg has been configured properly to use LDAP. Initiate connection to LDAP server
+to check if elogd.cfg has been configured properly to use LDAP. Initiates connection with LDAP server
 
 - auth_verify_password_ldap(LOGBOOK *lbs, const char *user, const char *password, char *error_str, int error_size):
 to check if the user is found in the LDAP database with the right credentials
@@ -60,7 +60,7 @@ LDAP server = ldap://example.org:389
 
 LDAP userbase = ou=People,dc=example,dc=org
 
-// login attribute to form the DN (distiguished name), e.g. uid=user,ou=People,dc=example,dc=org
+// login attribute to form the DN (distinguished name), e.g. uid=user,ou=People,dc=example,dc=org
 
 LDAP login attribute = uid
 
