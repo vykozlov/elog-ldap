@@ -8,15 +8,16 @@ Modified file: auth.c and Makefile
 Makefile:
 ====
 Add USE_LDAP parameter
-
+```
 if USE_LDAP=1 adds:
   CFLAGS += -DHAVE_LDAP
   LIBS += -lldap
-  
+```
+
 auth.c:
 ====
 Add in top of the file:
-
+```
 #ifdef HAVE_LDAP
 #include <ldap.h>
 
@@ -25,6 +26,7 @@ char ldap_login_attr[64];
 char ldap_userbase[256];
 char ldap_bindDN[512];
 #endif  /* */
+```
 
 Add following ldap functions:
 
