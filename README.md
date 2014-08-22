@@ -38,7 +38,7 @@ to check if elogd.cfg has been configured properly to use LDAP. Initiate connect
 to check if the user is found in the LDAP database with the right credentials
 
 - ldap_adduser_file(LOGBOOK *lbs, const char *user, const char *password, char *error_str, int error_size):
-in case "LDAP register" is configured (>0), and user is found in the LDAP database, add this user to the local file if not there, relevant info (Name, Surname, Email address) is retrivied from LDAP server
+in case "LDAP register" is configured (>0), and user is found in the LDAP database, add this user automatically to the local file if was not there, relevant info (Name, Surname, Email address) is retrieved from LDAP server
 
 - ldap_clear():
 clear some ldap parameters.
@@ -64,7 +64,7 @@ LDAP userbase = ou=People,dc=example,dc=org
 
 LDAP login attribute = uid
 
-// flag to allow automatically adding user info from LDAP to the local file
+// flag to allow adding user info automatically from LDAP to the local file
 
 LDAP register = 1
 
