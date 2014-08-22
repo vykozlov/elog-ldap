@@ -2,7 +2,9 @@ elog+ldap
 ====
 
 Modification of the ELOG software in order to use LDAP authentication.
+
 Original verions of ELOG: 2.9.2-2455
+
 Modified file: auth.c and Makefile
 
 ###Makefile:
@@ -67,4 +69,4 @@ LDAP login attribute = uid
 LDAP register = 1
 
 ### Password change
-is *not* possible from ELOG, i.e. a user cannot change his/her password from the ELOG form such that LDAP entry is updated.
+is **not** possible from ELOG, i.e. a user cannot change his/her password from the ELOG form such that LDAP entry is updated.
