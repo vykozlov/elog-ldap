@@ -65,3 +65,6 @@ LDAP login attribute = uid
 // flag to allow automatically adding user info from LDAP to the local file
 
 LDAP register = 1
+
+### Password change
+is *not* possible from ELOG, i.e. a user cannot change his/her password from the ELOG form such that LDAP entry is updated.
