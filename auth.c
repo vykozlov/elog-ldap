@@ -24,9 +24,9 @@
 #include <ldap.h>
 
 LDAP *ldap_ld;
-char ldap_login_attr[256];
+char ldap_login_attr[64];
 char ldap_userbase[256];
-char ldap_bindDN[256];
+char ldap_bindDN[512];
 #endif  /* */
 
 extern LOGBOOK *lb_list;
@@ -251,11 +251,7 @@ int auth_verify_password_ldap(LOGBOOK *lbs, const char *user, const char *passwo
 
   //--- Form LDAP bind DN (distinguished name): ---//
   //--- login_attr=user,ldap_userbase, e.g. uid=tuser,ou=People,dc=example,dc=org ---//
-   strlcpy(ldap_bindDN, ldap_login_attr, sizeof(ldap_bindDN));
-   strlcat(ldap_bindDN, "=", sizeof(ldap_bindDN));
-   strlcat(ldap_bindDN, user, sizeof(ldap_bindDN));
-   strlcat(ldap_bindDN, ",", sizeof(ldap_bindDN));
-   strlcat(ldap_bindDN, ldap_userbase, sizeof(ldap_bindDN));
+   sprintf(ldap_bindDN,"%s=%s,%s",ldap_login_attr,user,ldap_userbase);
 
    strlcat(str, "Connecting as: ", sizeof(str));
    strlcat(str, ldap_bindDN, sizeof(str));
@@ -272,10 +268,9 @@ int auth_verify_password_ldap(LOGBOOK *lbs, const char *user, const char *passwo
       ldap_unbind(ldap_ld);
       return FALSE;
    }
-   else {
-      strlcpy(str, "LDAP Authentication: Success!", sizeof(str));
-      ldap_unbind(ldap_ld);
-   }
+
+   strlcpy(str, "LDAP Authentication: Success!", sizeof(str));
+   ldap_unbind(ldap_ld);
 
    write_logfile(lbs, str);
    return TRUE;
@@ -314,11 +309,8 @@ int ldap_adduser_file(LOGBOOK *lbs, const char *user, const char *password, char
       return FALSE;
    }
 
-   strlcpy(filter, "(", sizeof(filter));
-   strlcat(filter, ldap_login_attr, sizeof(filter));
-   strlcat(filter, "=", sizeof(filter));
-   strlcat(filter, user, sizeof(filter));
-   strlcat(filter, ")", sizeof(filter));
+   // form LDAP filter to find the user;
+   sprintf(filter, "(%s=%s)", ldap_login_attr, user);
 
   // below based on: http://www.djack.com.pl/modules.php?name=FAQ&myfaq=yes&xmyfaq=yes&id_cat=7&id=183 (code errors!)
   // AND on: http://www-archive.mozilla.org/directory/csdk-docs/example.htm
@@ -407,6 +399,15 @@ int ldap_adduser_file(LOGBOOK *lbs, const char *user, const char *password, char
    return TRUE;
 }
 
+//--- clear ldap_ld and ldap_bindDN ---//
+int ldap_clear () 
+{
+   ldap_ld = NULL;
+   memset(&ldap_bindDN[0], 0, sizeof(ldap_bindDN)); 
+
+   return TRUE;
+}
+
 #endif  /* LDAP */
 
 /*---- local password file routines --------------------------------*/ 
@@ -480,6 +481,8 @@ int auth_verify_password(LOGBOOK * lbs, const char *user, const char *password, 
                  ldap_adduser_file(lbs, user, password, error_str, error_size);
          }
       }
+
+      ldap_clear();
    }
    if (verified)
       return TRUE;
