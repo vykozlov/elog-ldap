@@ -5,7 +5,7 @@ Modification of the ELOG software in order to use LDAP authentication.
 
 Original verions of ELOG: 2.9.2-2455
 
-Modified file: auth.c and Makefile
+Modified files: auth.c and Makefile
 
 ###Makefile:
 ####Add USE_LDAP parameter
